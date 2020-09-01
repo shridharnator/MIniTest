@@ -1,107 +1,121 @@
-#include <iostream>
-using namespace std;
+#include<iostream>
+#include<time.h>
+#include<vector>
+namespace std {
 
-//function prototyping for enter data 
-void enterData(int firstMatrix[][10], int secondMatrix[][10], int rowFirst, int columnFirst, int rowSecond, int columnSecond);
-//function prototyping for multiplication function
-void multiplyMatrices(int firstMatrix[][10], int secondMatrix[][10], int multResult[][10], int rowFirst, int columnFirst, int rowSecond, int columnSecond);
-//function prototyping for display function
-void display(int mult[][10], int rowFirst, int columnSecond);
+	//function prototyping for enter data 
+	void enterData(vector<vector<int> > firstMatrix, vector<vector<int> > secondMatrix, int rowFirst, int columnFirst, int rowSecond, int columnSecond);
+	//function prototyping for multiplication function
+	void multiplyMatrices(vector<vector<int> >firstMatrix, vector<vector<int> > secondMatrix, vector<vector<int> > mult, int rowFirst, int columnFirst, int rowSecond, int columnSecond);
+	//function prototyping for display function
+	void display(vector<vector<int> > mult, int rowFirst, int columnSecond);
+	//function to initliaze matrix in which the values after multiplication are stored
+	void INImat(int rowFirst, int columnSecond, vector<vector<int> > mult);
 
-int main()
-{
-	int firstMatrix[10][10], secondMatrix[10][10], mult[10][10], rowFirst, columnFirst, rowSecond, columnSecond, i, j, k;
-
-	cout << "Enter rows and column for first matrix: ";
-	cin >> rowFirst >> columnFirst;
-
-	cout << "Enter rows and column for second matrix: ";
-	cin >> rowSecond >> columnSecond;
-
-	// If colum of first matrix in not equal to row of second matrix, asking user to enter the size of matrix again.
-	while (columnFirst != rowSecond)
+	int main()
 	{
-		cout << "Error! column of first matrix not equal to row of second." << endl;
+		vector<vector<int> > firstMatrix; vector<vector<int> > secondMatrix; vector<vector<int> > mult; int rowFirst, columnFirst, rowSecond, columnSecond;
+
 		cout << "Enter rows and column for first matrix: ";
 		cin >> rowFirst >> columnFirst;
+
 		cout << "Enter rows and column for second matrix: ";
 		cin >> rowSecond >> columnSecond;
-	}
 
-	// Function to take matrices data
-	enterData(firstMatrix, secondMatrix, rowFirst, columnFirst, rowSecond, columnSecond);
-
-	// Function to multiply two matrices.
-	multiplyMatrices(firstMatrix, secondMatrix, mult, rowFirst, columnFirst, rowSecond, columnSecond);
-
-	// Function to display resultant matrix after multiplication.
-	display(mult, rowFirst, columnSecond);
-
-	return 0;
-}
-
-void enterData(int firstMatrix[][10], int secondMatrix[][10], int rowFirst, int columnFirst, int rowSecond, int columnSecond)
-{
-	int i, j;
-	cout << endl << "Enter elements of matrix 1:" << endl;
-	for (i = 0; i < rowFirst; ++i)
-	{
-		for (j = 0; j < columnFirst; ++j)
+		// If colum of first matrix in not equal to row of second matrix, asking user to enter the size of matrix again.
+		while (columnFirst != rowSecond)
 		{
-			cout << "Enter elements a" << i + 1 << j + 1 << ": ";
-			cin >> firstMatrix[i][j];
+			cout << "Error! column of first matrix not equal to row of second." << endl;
+			cout << "Enter rows and column for first matrix: ";
+			cin >> rowFirst >> columnFirst;
+			cout << "Enter rows and column for second matrix: ";
+			cin >> rowSecond >> columnSecond;
 		}
+
+		// Function to take matrices data
+		enterData(firstMatrix, secondMatrix, rowFirst, columnFirst, rowSecond, columnSecond);
+		//function to initlize matrix in which data will be stored after multipicartion.
+		INImat(rowFirst, rowSecond, mult);
+
+		// Function to multiply two matrices.
+		multiplyMatrices(firstMatrix, secondMatrix, mult, rowFirst, columnFirst, rowSecond, columnSecond);
+
+		// Function to display resultant matrix after multiplication.
+		display(mult, rowFirst, columnSecond);
+
+		return 0;
 	}
 
-	cout << endl << "Enter elements of matrix 2:" << endl;
-	for (i = 0; i < rowSecond; ++i)
+	void enterData(vector<vector<int> >firstMatrix, vector<vector<int> > secondMatrix, int rowFirst, int columnFirst, int rowSecond, int columnSecond)
 	{
-		for (j = 0; j < columnSecond; ++j)
+		int i, j;
+		srand(time(0));
+		//cout << endl << "Enter elements of matrix 1:" << endl;
+		for (i = 0; i < rowFirst; ++i)
 		{
-			cout << "Enter elements b" << i + 1 << j + 1 << ": ";
-			cin >> secondMatrix[i][j];
-		}
-	}
-}
-
-void multiplyMatrices(int firstMatrix[][10], int secondMatrix[][10], int mult[][10], int rowFirst, int columnFirst, int rowSecond, int columnSecond)
-{
-	int i, j, k;
-
-	// Initializing elements of matrix mult to 0.
-	for (i = 0; i < rowFirst; ++i)
-	{
-		for (j = 0; j < columnSecond; ++j)
-		{
-			mult[i][j] = 0;
-		}
-	}
-
-	// Multiplying matrix firstMatrix and secondMatrix and storing in array mult.
-	for (i = 0; i < rowFirst; ++i)
-	{
-		for (j = 0; j < columnSecond; ++j)
-		{
-			for (k = 0; k < columnFirst; ++k)
+			for (j = 0; j < columnFirst; ++j)
 			{
-				mult[i][j] += firstMatrix[i][k] * secondMatrix[k][j];
+				cout << "Entering  elements in a Randomly" << endl;//<< i + 1 << j + 1 << ": ";
+				//cin >> rand();
+				firstMatrix[i][j] = rand();
+			}
+		}
+
+		//cout << endl << "Enter elements of matrix 2:" << endl;
+		for (i = 0; i < rowSecond; ++i)
+		{
+			for (j = 0; j < columnSecond; ++j)
+			{
+				cout << "Entering elements in b randomly" << endl;// << i + 1 << j + 1 << ": ";
+				secondMatrix[i][j] = rand();
 			}
 		}
 	}
-}
+	void INImat(int rowFirst, int columnSecond, vector<vector<int> > mult) {
+		// Initializing elements of matrix mult to 0.
 
-void display(int mult[][10], int rowFirst, int columnSecond)
-{
-	int i, j;
-
-	cout << "Output Matrix:" << endl;
-	for (i = 0; i < rowFirst; ++i)
-	{
-		for (j = 0; j < columnSecond; ++j)
+		for (int i = 0; i < rowFirst; ++i)
 		{
-			cout << mult[i][j] << " ";
-			if (j == columnSecond - 1)
-				cout << endl << endl;
+			for (int j = 0; j < columnSecond; ++j)
+			{
+				mult[i][j] = 0;
+			}
+		}
+
+	}
+
+	void multiplyMatrices(vector<vector<int> > firstMatrix, vector<vector<int> > secondMatrix, vector<vector<int> > mult, int rowFirst, int columnFirst, int rowSecond, int columnSecond)
+	{
+		int i, j, k;
+
+
+
+		// Multiplying matrix firstMatrix and secondMatrix and storing in array mult.
+		for (i = 0; i < rowFirst; ++i)
+		{
+			for (j = 0; j < columnSecond; ++j)
+			{
+				for (k = 0; k < columnFirst; ++k)
+				{
+					mult[i][j] += firstMatrix[i][k] * secondMatrix[k][j];
+				}
+			}
+		}
+	}
+
+	void display(vector<vector<int> > mult, int rowFirst, int columnSecond)
+	{
+		int i, j;
+
+		cout << "Output Matrix:" << endl;
+		for (i = 0; i < rowFirst; ++i)
+		{
+			for (j = 0; j < columnSecond; ++j)
+			{
+				cout << mult[i][j] << " ";
+				if (j == columnSecond - 1)
+					cout << endl << endl;
+			}
 		}
 	}
 }
